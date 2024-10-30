@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Desesperanza - Panadería del Día de Muertos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./html/css/index-style.css">
+    <link rel="stylesheet" href="./html/css/nav-style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>La Desesperanza</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/pagina-productos">Producto</a></li>
+                    <li><a href="/nosotros">Nosotros</a></li>
+                    <li><a href="/contacto">Contacto</a></li>
+                    <li id="loginLink"><a href="/login">Iniciar Sesión</a></li>
+                    <li id="signupLink"><a href="/signup">Registro</a></li>
+                    <li id="logoutLink" style="display: none;"><a href="/logout">Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Sabores que despiertan a los muertos</h2>
+                <p>Descubre nuestras delicias especiales para el Día de Muertos</p>
+                <a href="/pagina-productos" class="cta-button">Ver Catálogo</a>
+            </div>
+        </section>
+
+        <div class="container">
+            <section class="features">
+                <div class="feature">
+                    <img src="https://www.elglobo.com.mx/cdn/shop/products/Pan_de_Muerto_Tradicional_Naranja_Familiar_Ok_3_1200x.jpg?v=1663974194" alt="Pan de Muerto">
+                    <h3>Pan de Muerto</h3>
+                    <p>Nuestro pan tradicional, suave y delicioso, decorado con huesos de azúcar.</p>
+                </div>
+                <div class="feature">
+                    <img src="https://ideas.hallmark.com/wp-content/uploads/2021/07/Sugar-Skulls-14.jpg" alt="Calaveras de Azúcar">
+                    <h3>Calaveras de Azúcar</h3>
+                    <p>Coloridas y dulces calaveras, perfectas para ofrendas y decoración.</p>
+                </div>
+                <div class="feature">
+                    <img src="https://www.gastrolabweb.com/u/fotografias/m/2023/8/23/f1280x720-51519_183194_5050.jpg" alt="Café de Olla">
+                    <h3>Café de Olla</h3>
+                    <p>Aromático café tradicional con canela y piloncillo, para acompañar tus panes.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 La Desesperanza. Todos los derechos reservados en este mundo y en el más allá.</p>
+        </div>
+    <script>
+        // Verificar si hay una sesión activa
+        fetch('/session')
+            .then(response => response.json())
+            .then(data => {
+                if (data.loggedIn) {
+                    // Ocultar enlaces de inicio de sesión y registro
+                    document.getElementById('loginLink').style.display = 'none';
+                    document.getElementById('signupLink').style.display = 'none';
+                    // Mostrar el enlace de cerrar sesión
+                    document.getElementById('logoutLink').style.display = 'block';
+                }
+            })
+            .catch(error => console.error('Error al verificar la sesión:', error));
+
+        // Manejar el cierre de sesión
+        document.getElementById('logoutLink').addEventListener('click', function (event) {
+            event.preventDefault(); // Evitar que el enlace se siga de forma predeterminada
+            fetch('/logout', { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        // Redirigir al usuario al índice
+                        window.location.href = '/'; // Cambia la ruta según tu configuración
+                    } else {
+                        console.error('Error al cerrar sesión');
+                    }
+                })
+                .catch(error => console.error('Error en la solicitud de cierre de sesión:', error));
+        });
+    </script>
+</body>
+</html>
